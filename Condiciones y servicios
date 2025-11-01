@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Clock - Multiple Time Zones</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #181818;
+      color: #eee;
+      margin: 0;
+      padding: 40px 0;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .clocks {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .clock {
+      background: #222;
+      padding: 25px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px #0004;
+      margin: 10px;
+      min-width: 220px;
+    }
+    .zone {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #90caf9;
+    }
+    .time {
+      font-size: 2.2em;
+      letter-spacing: 2px;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>Digital Clock - Multiple Time Zones</h1>
+  <div class="clocks" id="clocks"></div>
+  <script>
+    // Define the time zones to display
+    const timeZones = [
+      { label: 'New York (EST)', zone: 'America/New_York' },
+      { label: 'London (GMT)', zone: 'Europe/London' },
+      { label: 'Paris (CET)', zone: 'Europe/Paris' },
+      { label: 'Moscow (MSK)', zone: 'Europe/Moscow' },
+      { label: 'Mumbai (IST)', zone: 'Asia/Kolkata' },
+      { label: 'Beijing (CST)', zone: 'Asia/Shanghai' },
+      { label: 'Tokyo (JST)', zone: 'Asia/Tokyo' },
+      { label: 'Sydney (AEDT)', zone: 'Australia/Sydney' }
+    ];
+
+    function updateClocks() {
+      const clocksDiv = document.getElementById('clocks');
+      clocksDiv.innerHTML = '';
+      timeZones.forEach(tz => {
+        const now = new Date();
+        const timeString = now
+          .toLocaleTimeString('en-US', {
+            timeZone: tz.zone,
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          });
+        const clockHtml = `
+          <div class="clock">
+            <div class="zone">${tz.label}</div>
+            <div class="time">${timeString}</div>
+          </div>
+        `;
+        clocksDiv.innerHTML += clockHtml;
+      });
+    }
+
+    setInterval(updateClocks, 1000);
+    updateClocks();
+  </script>
+</body>
+</html>
